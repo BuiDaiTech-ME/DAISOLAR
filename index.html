@@ -1,2 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Bùi Đại Solar - Chuyên Gia Tư Vấn Điện Mặt Trời 2026</title>
+    <style>
+        :root { --primary: #0a67c1; --secondary: #18a957; --accent: #d32f2f; --bg: #f0f4f8; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: auto; padding: 15px; background: var(--bg); color: #333; line-height: 1.5; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--primary); }
+        h2 { color: var(--primary); text-align: center; margin-bottom: 20px; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; }
+        .section-title { font-weight: bold; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .input-box { background: #f9fbfd; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #e1e8ed; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+        label { display: block; margin-top: 10px; font-weight: 600; font-size: 0.9rem; color: #555; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 10px; box-sizing: border-box; font-size: 16px; transition: 0.3s; }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 8px rgba(10,103,193,0.1); }
+        .result-container { margin-top: 25px; background: #fff; border: 2px solid var(--secondary); border-radius: 15px; overflow: hidden; }
+        .res-head { background: var(--secondary); color: white; padding: 12px; text-align: center; font-weight: bold; font-size: 1.1rem; }
+        .res-row { display: flex; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid #f0f0f0; align-items: center; }
+        .res-row:last-child { border-bottom: none; }
+        .res-row span { color: #666; font-size: 0.95rem; }
+        .res-row b { color: var(--accent); font-size: 1.1rem; }
+        .qr-section { text-align: center; margin-top: 20px; padding: 15px; background: #fff; border-radius: 12px; border: 1px dashed #ccc; }
+        .qr-section img { width: 150px; height: 150px; border-radius: 8px; margin-bottom: 10px; }
+        .contact-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 25px; }
+        .btn { display: flex; align-items: center; justify-content: center; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: bold; color: white; font-size: 1rem; transition: 0.3s; }
+        .btn-zalo { background: #0068ff; }
+        .btn-call { background: var(--secondary); }
+        .btn:hover { opacity: 0.9; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .note { font-size: 0.8rem; color: #888; text-align: center; margin-top: 15px; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>⚡ TƯ VẤN SOLAR HYBRID 2026</h2>
+
+    <div class="input-section">
+        <div class="section-title">1. Thông tin tiêu thụ</div>
+        <div class="input-box">
+            <label>Loại hình khách hàng</label>
+            <select id="type" onchange="toggleMode()">
+                <option value="res">Hộ Gia Đình (Điện Bậc Thang)</option>
+                <option value="biz">Kinh Doanh (Điện 3 Biểu Giá)</option>
+            </select>
+
+            <div id="resGroup">
+                <label>Tổng số điện tiêu thụ (kWh/tháng)</label>
+                <input type="number" id="resKwh" value="1000" oninput="calc()">
+            </div>
+
+            <div id="bizGroup" style="display:none">
+                <div class="grid">
+                    <div>
+                        <label>Giờ Bình Thường (kWh)</label>
+                        <input type="number" id="normal" value="400" oninput="calc()">
+                    </div>
+                    <div>
+                        <label>Giờ Cao Điểm (kWh)</label>
+                        <input type="number" id="peak" value="300" oninput="calc()">
+                    </div>
+                </div>
+                <label>Giờ Thấp Điểm (kWh)</label>
+                <input type="number" id="off" value="300" oninput="calc()">
+            </div>
+        </div>
+
+        <div class="section-title">2. Thông số kỹ thuật</div>
+        <div class="input-box">
+            <div class="grid">
+                <div>
+                    <label>Tỷ lệ tự dùng (%)</label>
+                    <input type="number" id="selfUse" value="85" oninput="calc()">
+                </div>
+                <div>
+                    <label>Khu vực lắp đặt</label>
+                    <select id="sunHour" onchange="calc()">
+                        <option value="4.5">Miền Nam / CPC (Nắng tốt)</option>
+                        <option value="4.0">Miền Trung (Trung bình)</option>
+                        <option value="3.5">Miền Bắc (Nắng thấp)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-container">
+        <div class="res-head">DỰ TOÁN ĐẦU TƯ THỰC TẾ 2026</div>
+        <div class="res-row"><span>Tiền điện hiện tại:</span> <b id="outBill">0 đ</b></div>
+        <div class="res-row"><span>Gói lắp đề xuất:</span> <b id="outKwp">0 kWp</b></div>
+        <div class="res-row"><span>Pin lưu trữ (Lithium):</span> <b id="outBat">0 kWh</b></div>
+        <div class="res-row"><span>Tổng mức đầu tư (Trọn gói):</span> <b id="outTotal" style="color:var(--secondary)">0 đ</b></div>
+        <div class="res-row"><span>Hoàn vốn dự kiến:</span> <b id="outPayback">0 năm</b></div>
+        <div class="res-row"><span>Lợi nhuận sau 25 năm:</span> <b id="outProfit">0 đ</b></div>
+    </div>
+
+    <div class="qr-section">
+        <p style="margin-bottom: 10px; font-weight: bold; color: var(--primary);">Quét mã Zalo để nhận báo giá chi tiết</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/0838933638" alt="Zalo QR Bùi Đại">
+        <p style="font-size: 0.9rem; color: #555;">Anh Đại - 0838.933.638</p>
+    </div>
+
+    <div class="contact-group">
+        <a href="tel:0838933638" class="btn btn-call">📞 GỌI TƯ VẤN</a>
+        <a href="https://zalo.me/0838933638" target="_blank" class="btn btn-zalo" onclick="copyGreeting()">💬 CHAT ZALO</a>
+    </div>
+    
+    <p class="note">* Đơn giá đã bao gồm vật tư chính, phụ và nhân công lắp đặt trọn gói.</p>
+</div>
+
+<script>
+function vnd(x) { return Math.round(x).toLocaleString("vi-VN") + " đ"; }
+
+function toggleMode() {
+    let t = document.getElementById("type").value;
+    document.getElementById("resGroup").style.display = (t === "res") ? "block" : "none";
+    document.getElementById("bizGroup").style.display = (t === "biz") ? "block" : "none";
+    calc();
+}
+
+function copyGreeting() {
+    const text = "Chào anh Đại, tôi vừa xem bảng tính trên web và muốn tư vấn lắp điện mặt trời năm 2026.";
+    navigator.clipboard.writeText(text);
+    alert("Đã copy lời chào! Bạn có thể dán vào khung chat Zalo để gửi cho anh Đại.");
+}
+
+function calc() {
+    let type = document.getElementById("type").value;
+    let bill = 0;
+    
+    // TÍNH TOÁN TIỀN ĐIỆN THEO BIỂU GIÁ 2026 (VAT 8%)
+    if(type === "res") {
+        let kwh = parseFloat(document.getElementById("resKwh").value) || 0;
+        let tiers = [1893, 1956, 2271, 2860, 3197, 3302]; 
+        let use = [50, 50, 100, 100, 100, 999999];
+        for (let i = 0; i < tiers.length; i++) {
+            let take = Math.min(kwh, use[i]);
+            bill += take * tiers[i];
+            kwh -= take;
+            if (kwh <= 0) break;
+        }
+    } else {
+        let p = parseFloat(document.getElementById("peak").value) || 0;
+        let n = parseFloat(document.getElementById("normal").value) || 0;
+        let o = parseFloat(document.getElementById("off").value) || 0;
+        bill = (p * 3170 + n * 1860 + o * 1200);
+    }
+    bill = bill * 1.08; 
+
+    // KHỚP GÓI ĐẦU TƯ THEO BẢNG GIÁ THỰC TẾ 2026
+    let config = { kwp: 0, cost: 0, bat: 0 };
+    
+    if (bill <= 1600000)      { config = { kwp: 3.24, cost: 65000000, bat: 5 }; }
+    else if (bill <= 2800000) { config = { kwp: 5.94, cost: 98000000, bat: 5 }; }
+    else if (bill <= 4500000) { config = { kwp: 8.10, cost: 135000000, bat: 10 }; }
+    else if (bill <= 6500000) { config = { kwp: 10.80, cost: 175000000, bat: 10 }; }
+    else if (bill <= 8500000) { config = { kwp: 13.50, cost: 225000000, bat: 15 }; }
+    else { 
+        config.kwp = bill / 480000; 
+        config.cost = config.kwp * 15000000; 
+        config.bat = Math.ceil(config.kwp / 2);
+    }
+
+    // TÍNH TIẾT KIỆM & HOÀN VỐN
+    let selfRate = parseFloat(document.getElementById("selfUse").value) / 100;
+    let annualSaving = bill * selfRate * 12;
+    let payback = config.cost / annualSaving;
+    let profit = (annualSaving * 25) - config.cost;
+
+    // HIỂN THỊ
+    document.getElementById("outBill").innerText = vnd(bill);
+    document.getElementById("outKwp").innerText = config.kwp.toFixed(2) + " kWp";
+    document.getElementById("outBat").innerText = config.bat + " kWh";
+    document.getElementById("outTotal").innerText = vnd(config.cost);
+    document.getElementById("outPayback").innerText = isFinite(payback) ? payback.toFixed(1) + " năm" : "---";
+    document.getElementById("outProfit").innerText = vnd(profit);
+}
+
+window.onload = calc;
+</script>
+</body>
+</html>
 
 
